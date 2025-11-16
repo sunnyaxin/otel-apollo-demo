@@ -20,7 +20,7 @@ const sdk = new NodeSDK({
       exporter: new OTLPMetricExporter({
         url: "http://otelcol:4318/v1/metrics",
       }),
-      exportIntervalMillis: 5000, // 5秒导出一次指标数据,默认60000ms
+      // exportIntervalMillis: 5000, // 5秒导出一次指标数据,默认60000ms
     }),
   ],
   instrumentations: [
