@@ -6,6 +6,7 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
 import {resourceFromAttributes} from "@opentelemetry/resources";
 import {ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION} from "@opentelemetry/semantic-conventions";
+import {metrics, trace} from "@opentelemetry/api";
 
 const sdk = new NodeSDK({
   resource: resourceFromAttributes({
@@ -33,5 +34,8 @@ const sdk = new NodeSDK({
     // new GraphQLInstrumentation(),
   ],
 });
+
+export const tracer = trace.getTracer("trace-instrumentation-scope-name", "trace-instrumentation-scope-version");
+export const meter = metrics.getMeter("metric-instrumentation-scope-name", "metric-instrumentation-scope-version");
 
 sdk.start();
