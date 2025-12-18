@@ -35,7 +35,4 @@ const sdk = new NodeSDK({
   ],
 });
 
-export const tracer = trace.getTracer("trace-instrumentation-scope-name", "trace-instrumentation-scope-version");
-export const meter = metrics.getMeter("metric-instrumentation-scope-name", "metric-instrumentation-scope-version");
-
 sdk.start();
