@@ -6,14 +6,6 @@ receivers:
       http:
         endpoint: 0.0.0.0:4318
 
-processors:
-  batch:
-    send_batch_max_size: 10000
-    timeout: 1s
-  memory_limiter:
-    check_interval: 1s
-    limit_mib: 4000
-
 exporters:
   debug:
     verbosity: detailed
@@ -22,13 +14,10 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, batch]
       exporters: [debug]
     metrics:
       receivers: [otlp]
-      processors: [memory_limiter, batch]
       exporters: [debug]
     logs:
       receivers: [otlp]
-      processors: [memory_limiter, batch]
       exporters: [debug]
