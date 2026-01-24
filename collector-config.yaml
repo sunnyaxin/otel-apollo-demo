@@ -28,6 +28,12 @@ receivers:
       cpu:
       memory:
 
+  prometheus_simple:
+    collection_interval: 10s
+    endpoint: "host.docker.internal:8080"
+    metrics_path: '/metrics'
+    use_service_account: false
+
 exporters:
   debug:
     verbosity: detailed
@@ -38,8 +44,8 @@ service:
       receivers: [otlp]
       exporters: [debug]
     metrics:
-      receivers: [hostmetrics, hostmetrics/frequent]
+      receivers: [prometheus_simple]
       exporters: [debug]
     logs:
-      receivers: [hostmetrics]
+      receivers: [otlp]
       exporters: [debug]
