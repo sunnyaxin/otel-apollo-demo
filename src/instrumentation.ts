@@ -2,8 +2,8 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { GraphQLInstrumentation } from "@opentelemetry/instrumentation-graphql";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-grpc";
 import {resourceFromAttributes} from "@opentelemetry/resources";
 import {ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION} from "@opentelemetry/semantic-conventions";
 import {metrics, trace} from "@opentelemetry/api";
@@ -14,14 +14,14 @@ const sdk = new NodeSDK({
     [ATTR_SERVICE_VERSION]: "1.0",
   }),
   traceExporter: new OTLPTraceExporter({
-    url: "http://otelcol:4318/v1/traces",
+    url: "http://otelcol:4317/v1/traces",
   }),
   metricReaders: [
     new PeriodicExportingMetricReader({
       exporter: new OTLPMetricExporter({
-        url: "http://otelcol:4318/v1/metrics",
+        url: "http://otelcol:4317/v1/metrics",
       }),
-      // exportIntervalMillis: 5000, // 5秒导出一次指标数据,默认60000ms
+      exportIntervalMillis: 5000, // 5秒导出一次指标数据,默认60000ms
     }),
   ],
   instrumentations: [
