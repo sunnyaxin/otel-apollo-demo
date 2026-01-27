@@ -50,8 +50,8 @@ receivers:
 processors:
   memory_limiter:
     check_interval: 1s
-    limit_mib: 400
-    spike_limit_mib: 100
+    limit_mib: 2
+    spike_limit_mib: 1
 
 exporters:
   debug:
