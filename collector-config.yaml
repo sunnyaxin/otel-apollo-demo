@@ -107,18 +107,21 @@ processors:
 exporters:
   debug:
     verbosity: detailed
+  otlphttp:
+    endpoint: http://localhost:4318
+    encoding: json
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [memory_limiter, resource, attributes, filter, tail_sampling, batch]
-      exporters: [debug]
+      exporters: [debug, otlphttp]
     metrics:
       receivers: [otlp]
       processors: [memory_limiter, resource, attributes, filter, batch]
-      exporters: [debug]
+      exporters: [debug, otlphttp]
     logs:
       receivers: [filelog]
       processors: [memory_limiter, resource, attributes, filter, batch]
-      exporters: [debug]
+      exporters: [debug, otlphttp]
