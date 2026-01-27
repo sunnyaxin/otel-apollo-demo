@@ -92,6 +92,18 @@ processors:
       datapoint:
         - 'value_double < 2'
 
+  tail_sampling:
+    decision_wait: 10s
+    policies:
+      - name: slow-traces
+        type: latency
+        latency:
+          threshold_ms: 1000
+      - name: probabilistic
+        type: probabilistic
+        probabilistic:
+          sampling_percentage: 10
+
 exporters:
   debug:
     verbosity: detailed
@@ -100,7 +112,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, resource, attributes, filter, batch]
+      processors: [memory_limiter, resource, attributes, filter, tail_sampling, batch]
       exporters: [debug]
     metrics:
       receivers: [otlp]

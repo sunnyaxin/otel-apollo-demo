@@ -4,7 +4,7 @@ import { Meter, Tracer } from "@opentelemetry/api";
 export function createOtelApolloPlugin(meter: Meter, tracer: Tracer): ApolloServerPlugin {
   return {
     async requestDidStart(_requestContext) {
-      meter.createCounter("request-count").add(1, { operation: "Query" });
+      // meter.createCounter("request-count").add(1, { operation: "Query" });
 
       const span = tracer.startSpan("hello-span", {
         attributes: {
