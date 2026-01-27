@@ -79,13 +79,18 @@ processors:
         value: collector-value-from-config
         action: insert
 
-  filter:
+  filter: #https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/ottl/ottlfuncs#converters
     error_mode: ignore
     traces:
       span:
         - 'name == "hello-span"'
       spanevent:
         - 'attributes["value"] == 0'
+    metrics:
+      metric:
+        - 'name != "request-count"'
+      datapoint:
+        - 'value_double < 2'
 
 exporters:
   debug:
