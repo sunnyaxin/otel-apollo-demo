@@ -50,8 +50,13 @@ receivers:
 processors:
   memory_limiter:
     check_interval: 1s
-    limit_mib: 2
-    spike_limit_mib: 1
+    limit_mib: 400
+    spike_limit_mib: 100
+
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+    send_batch_max_size: 2048
 
 exporters:
   debug:
@@ -61,13 +66,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter]
+      processors: [memory_limiter， batch]
       exporters: [debug]
     metrics:
       receivers: [otlp]
-      processors: [memory_limiter]
+      processors: [memory_limiter， batch]
       exporters: [debug]
     logs:
       receivers: [filelog]
-      processors: [memory_limiter]
+      processors: [memory_limiter， batch]
       exporters: [debug]
