@@ -79,6 +79,14 @@ processors:
         value: collector-value-from-config
         action: insert
 
+  filter:
+    error_mode: ignore
+    traces:
+      span:
+        - 'name == "hello-span"'
+      spanevent:
+        - 'attributes["value"] == 0'
+
 exporters:
   debug:
     verbosity: detailed
@@ -87,13 +95,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, resource, attributes, batch]
+      processors: [memory_limiter, resource, attributes, filter, batch]
       exporters: [debug]
     metrics:
       receivers: [otlp]
-      processors: [memory_limiter, resource, attributes, batch]
+      processors: [memory_limiter, resource, attributes, filter, batch]
       exporters: [debug]
     logs:
       receivers: [filelog]
-      processors: [memory_limiter, resource, attributes, batch]
+      processors: [memory_limiter, resource, attributes, filter, batch]
       exporters: [debug]
