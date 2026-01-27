@@ -58,6 +58,17 @@ processors:
     send_batch_size: 1024
     send_batch_max_size: 2048
 
+  resource:
+    attributes:
+      - key: service.namespace
+        value: node-apollo_from_config
+        action: upsert
+      - key: deployment.environment
+        value: local_from_config
+        action: upsert
+      - key: service.name
+        action: delete
+
 exporters:
   debug:
     verbosity: detailed
@@ -66,13 +77,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter， batch]
+      processors: [memory_limiter, resource, batch]
       exporters: [debug]
     metrics:
       receivers: [otlp]
-      processors: [memory_limiter， batch]
+      processors: [memory_limiter, resource, batch]
       exporters: [debug]
     logs:
       receivers: [filelog]
-      processors: [memory_limiter， batch]
+      processors: [memory_limiter, resource, batch]
       exporters: [debug]
