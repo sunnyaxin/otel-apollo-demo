@@ -47,6 +47,12 @@ receivers:
         severity:
           parse_from: attributes.sev
 
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 400
+    spike_limit_mib: 100
+
 exporters:
   debug:
     verbosity: detailed
@@ -55,10 +61,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
+      processors: [memory_limiter]
       exporters: [debug]
     metrics:
       receivers: [otlp]
+      processors: [memory_limiter]
       exporters: [debug]
     logs:
       receivers: [filelog]
+      processors: [memory_limiter]
       exporters: [debug]
