@@ -110,6 +110,8 @@ exporters:
   otlphttp:
     endpoint: http://localhost:4318
     encoding: json
+  googlecloud:
+    project: fake-project
 
 service:
   pipelines:
